@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gauge Stricklin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* ─── tokens: light is the base, dark redefines only values ─────────── */
+:root{
+  --paper:#F1F2F4;
+  --surface:#FFFFFF;
+  --ink:#0E1116;
+  --ink-2:#3D4550;
+  --ink-3:#6B7480;
+  --rule:#C9CFD7;
+  --rule-soft:#E1E5EA;
+  --band:#0E1116;
+  --band-ink:#F1F2F4;
+  --band-dim:#8A93A0;
+  --accent:#2450C8;
+  --accent-soft:#E4E9F8;
+  --accent-band:#8FB0FF;
+
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B0D11;
+    --surface:#12151B;
+    --ink:#EDEFF3;
+    --ink-2:#A8B1BD;
+    --ink-3:#7B8593;
+    --rule:#2A303A;
+    --rule-soft:#1C2129;
+    --band:#1E2634;
+    --band-ink:#EDEFF3;
+    --band-dim:#79838F;
+    --accent:#8CACFF;
+    --accent-soft:#1A2136;
+    --accent-band:#8CACFF;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B0D11;
+  --surface:#12151B;
+  --ink:#EDEFF3;
+  --ink-2:#A8B1BD;
+  --ink-3:#7B8593;
+  --rule:#2A303A;
+  --rule-soft:#1C2129;
+  --band:#1E2634;
+  --band-ink:#EDEFF3;
+  --band-dim:#79838F;
+  --accent:#8CACFF;
+  --accent-soft:#1A2136;
+  --accent-band:#8CACFF;
+}
+
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.sheet{
+  max-width:52rem;
+  margin:0 auto;
+  padding:3.25rem 2.25rem 4rem;
+  background:var(--surface);
+  border-left:1px solid var(--rule-soft);
+  border-right:1px solid var(--rule-soft);
+}
+
+/* ─── masthead ──────────────────────────────────────────────────────── */
+.masthead{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:1.5rem 2rem;
+  align-items:end;
+  padding-bottom:1.1rem;
+  border-bottom:2px solid var(--ink);
+}
+h1{
+  margin:0;
+  font-family:var(--f-display);
+  font-variation-settings:"wdth" 118,"wght" 800;
+  font-size:clamp(2.6rem,8vw,4.15rem);
+  line-height:.86;
+  letter-spacing:-.022em;
+  text-transform:uppercase;
+  text-wrap:balance;
+}
+h1 .sur{display:block;color:var(--accent);}
+.roles{
+  margin:.85rem 0 0;
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  font-weight:500;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-2);
+}
+.roles i{font-style:normal;color:var(--accent);padding:0 .3em;}
+
+.contact{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:.24rem;
+  font-family:var(--f-mono);
+  font-size:.71rem;
+  letter-spacing:.01em;
+  color:var(--ink-2);
+  text-align:right;
+}
+.contact a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule);}
+.contact a:hover,.contact a:focus-visible{color:var(--accent);border-color:var(--accent);}
+.todo{
+  color:var(--accent);
+  background:var(--accent-soft);
+  padding:.05em .38em;
+  border-radius:2px;
+  font-weight:500;
+}
+
+/* ─── stat band: the one loud moment ────────────────────────────────── */
+.band{
+  margin:0 -2.25rem;
+  padding:1.35rem 2.25rem 1.45rem;
+  background:var(--band);
+  color:var(--band-ink);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1.25rem;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.stat{
+  display:grid;
+  gap:.3rem;
+  align-content:start;
+  border-left:2px solid var(--accent-band);
+  padding-left:.8rem;
+}
+.stat b{
+  font-family:var(--f-display);
+  font-variation-settings:"wdth" 112,"wght" 700;
+  font-size:1.72rem;
+  line-height:1;
+  letter-spacing:-.015em;
+  font-variant-numeric:tabular-nums;
+  color:var(--accent-band);
+}
+.stat span{
+  font-family:var(--f-mono);
+  font-size:.62rem;
+  line-height:1.35;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--band-dim);
+}
+
+/* ─── hanging-label section grid ────────────────────────────────────── */
+.block{
+  display:grid;
+  grid-template-columns:8.5rem minmax(0,1fr);
+  gap:0 1.9rem;
+  padding:1.6rem 0 .25rem;
+  border-bottom:1px solid var(--rule-soft);
+}
+.block:last-of-type{border-bottom:0;}
+.block > h2{
+  margin:.2rem 0 0;
+  font-family:var(--f-mono);
+  font-size:.66rem;
+  font-weight:600;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+.block-body{min-width:0;}
+
+.lede{
+  margin:0;
+  font-size:.98rem;
+  line-height:1.62;
+  color:var(--ink-2);
+  max-width:62ch;
+}
+.lede strong{color:var(--ink);font-weight:600;}
+.lede + .lede{margin-top:.7rem;}
+
+/* ─── roles ─────────────────────────────────────────────────────────── */
+.role{padding-bottom:1.35rem;break-inside:avoid;}
+.role:last-child{padding-bottom:.4rem;}
+.role-head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:.15rem 1rem;
+  align-items:baseline;
+  padding-bottom:.5rem;
+  border-bottom:1px solid var(--rule);
+  margin-bottom:.6rem;
+}
+.role-head h3{
+  margin:0;
+  font-family:var(--f-display);
+  font-variation-settings:"wdth" 105,"wght" 700;
+  font-size:1.02rem;
+  letter-spacing:.005em;
+  text-transform:uppercase;
+  line-height:1.15;
+}
+.org{
+  margin:.15rem 0 0;
+  font-size:.83rem;
+  color:var(--ink-2);
+}
+.org em{font-style:normal;color:var(--accent);font-weight:600;}
+.when{
+  font-family:var(--f-mono);
+  font-size:.68rem;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+  text-align:right;
+}
+.when b{display:block;font-weight:500;color:var(--ink-2);}
+.when i{display:block;font-style:normal;}
+
+ul.pts{
+  margin:0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:.42rem;
+}
+ul.pts li{
+  position:relative;
+  padding-left:.95rem;
+  font-size:.885rem;
+  line-height:1.48;
+  color:var(--ink-2);
+  max-width:70ch;
+}
+ul.pts li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.62em;
+  width:.34rem;
+  height:1px;
+  background:var(--accent);
+}
+ul.pts strong{color:var(--ink);font-weight:600;}
+
+/* ─── capabilities ──────────────────────────────────────────────────── */
+.caps{display:grid;gap:.7rem;}
+.cap{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:.2rem;
+}
+.cap dt{
+  font-family:var(--f-mono);
+  font-size:.63rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+.cap dd{
+  margin:0;
+  font-size:.855rem;
+  line-height:1.5;
+  color:var(--ink-2);
+}
+.cap dd s{text-decoration:none;color:var(--rule);padding:0 .3em;}
+
+/* ─── education ─────────────────────────────────────────────────────── */
+.edu{display:grid;gap:.75rem;}
+.edu-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:.1rem 1rem;
+  align-items:baseline;
+  padding-bottom:.6rem;
+  border-bottom:1px solid var(--rule-soft);
+}
+.edu-row:last-child{border-bottom:0;padding-bottom:0;}
+.edu-row h3{
+  margin:0;
+  font-family:var(--f-display);
+  font-variation-settings:"wdth" 105,"wght" 600;
+  font-size:.9rem;
+  text-transform:uppercase;
+  letter-spacing:.01em;
+}
+.edu-row p{margin:.12rem 0 0;font-size:.83rem;color:var(--ink-2);}
+
+/* ─── screen-only footer note ───────────────────────────────────────── */
+.note{
+  margin:2.25rem -2.25rem -4rem;
+  padding:1.15rem 2.25rem 1.3rem;
+  background:var(--accent-soft);
+  border-top:1px solid var(--rule-soft);
+  font-family:var(--f-mono);
+  font-size:.68rem;
+  line-height:1.65;
+  letter-spacing:.02em;
+  color:var(--ink-2);
+}
+.note b{color:var(--accent);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.4rem;font-size:.63rem;}
+
+/* ─── responsive ────────────────────────────────────────────────────── */
+@media (max-width:44rem){
+  .sheet{padding:2.25rem 1.25rem 3rem;}
+  .masthead{grid-template-columns:minmax(0,1fr);align-items:start;}
+  .contact{text-align:left;}
+  .band{margin:0 -1.25rem;padding:1.15rem 1.25rem;grid-template-columns:repeat(2,1fr);gap:1rem;}
+  .block{grid-template-columns:minmax(0,1fr);gap:.55rem;}
+  .role-head,.edu-row{grid-template-columns:minmax(0,1fr);}
+  .when{text-align:left;}
+  .when b,.when i{display:inline;}
+  .when i::before{content:" · ";}
+  .note{margin:2rem -1.25rem -3rem;padding:1.15rem 1.25rem;}
+}
+
+/* ─── print ─────────────────────────────────────────────────────────── */
+@page{size:letter;margin:.5in;}
+@media print{
+  :root,:root[data-theme="dark"]{
+    --paper:#FFFFFF;--surface:#FFFFFF;--ink:#000000;--ink-2:#23282F;--ink-3:#5C646E;
+    --rule:#B8BFC8;--rule-soft:#DDE1E6;--band:#0E1116;--band-ink:#FFFFFF;--band-dim:#9AA3AF;
+    --accent:#1D46B8;--accent-soft:#EEF1FA;--accent-band:#9DBAFF;
+  }
+  /* every size below is in rem, so scaling the root scales the whole sheet */
+  html{font-size:8.7pt;}
+  body{background:#fff;font-size:1rem;line-height:1.42;}
+  .sheet{max-width:none;margin:0;padding:0;border:0;}
+  .masthead{padding-bottom:.7rem;}
+  h1{font-size:2.75rem;}
+  .roles{margin-top:.5rem;font-size:.68rem;}
+  .contact{font-size:.66rem;gap:.14rem;}
+  .band{margin:.9rem 0 0;padding:.62rem .8rem .66rem;gap:.9rem;}
+  .stat{padding-left:.6rem;}
+  .stat b{font-size:1.4rem;}
+  .stat span{font-size:.56rem;letter-spacing:.09em;}
+  .block{padding:.85rem 0 .1rem;grid-template-columns:7.4rem minmax(0,1fr);gap:0 1.4rem;}
+  .lede{font-size:.92rem;line-height:1.48;}
+  .lede + .lede{margin-top:.5rem;}
+  .role{padding-bottom:.78rem;}
+  .role-head{padding-bottom:.34rem;margin-bottom:.42rem;}
+  ul.pts{gap:.26rem;}
+  ul.pts li{line-height:1.4;}
+  .caps{gap:.5rem;}
+  .edu{gap:.5rem;}
+  .note{display:none;}
+  a{color:inherit;}
+}
+@media (prefers-reduced-motion:no-preference){
+  .stat{animation:rise .5s cubic-bezier(.2,.7,.3,1) both;}
+  .stat:nth-child(2){animation-delay:.06s;}
+  .stat:nth-child(3){animation-delay:.12s;}
+  .stat:nth-child(4){animation-delay:.18s;}
+  @keyframes rise{from{opacity:0;transform:translateY(.5rem);}to{opacity:1;transform:none;}}
+}
+</style>
+</head>
+<body>
+<main class="sheet">
+
+  <header class="masthead">
+    <div>
+      <h1>Gauge<span class="sur">Stricklin</span></h1>
+      <p class="roles">Creative Director <i>/</i> Filmmaker <i>/</i> Content Strategist</p>
+    </div>
+    <ul class="contact">
+      <li><a href="mailto:thegaugeashtonn@gmail.com">thegaugeashtonn@gmail.com</a></li>
+      <li><span class="todo">[ PHONE ]</span></li>
+      <li><span class="todo">[ CITY, STATE ]</span></li>
+      <li><span class="todo">[ PORTFOLIO URL ]</span></li>
+      <li><span class="todo">[ @INSTAGRAM ]</span></li>
+      <li><span class="todo">[ LINKEDIN ]</span></li>
+    </ul>
+  </header>
+
+  <section class="band" aria-label="Career metrics">
+    <div class="stat"><b>1.2B+</b><span>Lifetime views</span></div>
+    <div class="stat"><b>700K+</b><span>Combined audience</span></div>
+    <div class="stat"><b>400M+</b><span>90-day interactions</span></div>
+    <div class="stat"><b>$40K</b><span>Revenue, 2 organic posts</span></div>
+  </section>
+
+  <section class="block">
+    <h2>Profile</h2>
+    <div class="block-body">
+      <p class="lede">Creative Director, filmmaker, and content strategist who builds audiences, leads creative teams, and turns content into measurable revenue. <strong>Promoted from Social Media Manager to Creative Director at RCP America in eight months</strong> after driving 30x+ organic engagement growth. Leads multidisciplinary creative operations while staying hands-on across cinematography, photography, editing, social strategy, brand development, and emerging AI workflows.</p>
+      <p class="lede">Independently built content platforms to <strong>700K+ followers and 1.2B+ lifetime views</strong>, including 400M+ interactions inside a single 90-day window. At RCP America, generated <strong>$40,000 in directly attributable revenue from two organic posts</strong> — with zero paid media spend.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Experience</h2>
+    <div class="block-body">
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <h3>Creative Director</h3>
+            <p class="org"><em>RCP America</em> — automotive-care manufacturer</p>
+          </div>
+          <div class="when"><b>Jan 2026 – Present</b><i>Social Media Mgr · Jun 2025 – Jan 2026</i></div>
+        </div>
+        <ul class="pts">
+          <li><strong>Promoted to Creative Director in eight months</strong> on the strength of organic growth performance, creative execution, and cross-functional leadership.</li>
+          <li>Own creative strategy and production across social, video, photography, graphic design, web, and brand for a manufacturer serving thousands of dealership customers — holding <strong>final creative approval on company-wide brand output</strong>.</li>
+          <li>Generated <strong>$40,000 in directly attributable revenue from two organic social posts</strong> with $0 paid media, after viewers contacted RCP America specifically seeking the products featured in the content.</li>
+          <li>Increased average Instagram engagement <strong>30x+ organically</strong>, moving typical post performance from 0–3 likes to 97+ with no paid spend; produced branded content reaching millions, including a single piece past <strong>13M views</strong>.</li>
+          <li>Direct and produce short-form social content, cinematic brand films, product campaigns, commercial photography, and event creative from concept through final delivery.</li>
+          <li>Led creative production around the company's expansion from ~12,000 to <strong>44,000 sq. ft.</strong>, including long-form brand storytelling, event content, and launch creative.</li>
+          <li>Built RCP America's <strong>CRM infrastructure from the ground up</strong> to support sales, marketing, customer tracking, and follow-up operations.</li>
+          <li>Design and prototype <strong>AI-assisted production systems</strong> — semantic footage discovery, transcript-based retrieval, analytics, and reporting across large media libraries — increasing creative output without proportional headcount.</li>
+          <li>Partner directly with leadership, sales, web, and marketing to translate business objectives into campaigns and executable creative strategy.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <h3>Founder &amp; Creative Director</h3>
+            <p class="org"><em>Strictly Media</em> — independent creative agency</p>
+          </div>
+          <div class="when"><b>2025 – Present</b></div>
+        </div>
+        <ul class="pts">
+          <li>Founded and operate an independent agency specializing in automotive, motorsports, lifestyle, and commercial content.</li>
+          <li>Direct projects from concept to final delivery, personally handling creative development, cinematography, photography, editing, brand strategy, and client communication.</li>
+          <li>Produce cinematic brand films, social-first campaigns, automotive photography, event coverage, and short-form content built for organic distribution.</li>
+          <li>Apply audience-growth principles developed across <strong>1B+ views of owned content</strong> to commercial client strategy and production.</li>
+          <li>Build repeatable production systems and AI-assisted workflows that raise output while holding a lean operating structure.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <h3>Creator &amp; Content Strategist</h3>
+            <p class="org"><em>Gauge Ashton / total.gee</em> — owned media platforms</p>
+          </div>
+          <div class="when"><b><span class="todo">[ YEAR – YEAR ]</span></b></div>
+        </div>
+        <ul class="pts">
+          <li>Built owned platforms to <strong>700K+ combined followers and 1.2B+ lifetime views</strong> across automotive, motorcycle, sports, and lifestyle content.</li>
+          <li>Generated <strong>400M+ interactions inside a single 90-day period</strong> through organic content strategy and creative execution.</li>
+          <li>Grew every audience without paid media, developing firsthand command of platform-native storytelling, audience behavior, retention, packaging, and organic distribution.</li>
+          <li>Run the full content lifecycle solo: ideation, creative direction, production, cinematography, editing, publishing, performance analysis, and brand partnerships.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <h3>Freelance Videographer</h3>
+            <p class="org"><em>Western Kentucky University</em></p>
+          </div>
+          <div class="when"><b>2022 – 2024</b></div>
+        </div>
+        <ul class="pts">
+          <li>Produced video content for university initiatives, events, and institutional storytelling.</li>
+          <li>Built foundational experience in narrative development and event production, shooting, editing, and delivering independently in fast-moving environments.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <h3>National Private Cheerleading Coach</h3>
+            <p class="org"><em>Independent / Strictly Cheer</em> — additional leadership</p>
+          </div>
+          <div class="when"><b>2018 – 2024</b></div>
+        </div>
+        <ul class="pts">
+          <li>Built and ran an independent coaching business serving competitive athletes nationwide for six years — client acquisition, scheduling, travel, instruction, and athlete development.</li>
+          <li>Developed deep experience leading and communicating in high-performance athletic environments.</li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Capabilities</h2>
+    <div class="block-body">
+      <dl class="caps">
+        <div class="cap">
+          <dt>Creative leadership</dt>
+          <dd>Creative Direction <s>/</s> Team Leadership <s>/</s> Creative Operations <s>/</s> Brand Strategy <s>/</s> Campaign Development <s>/</s> Cross-Functional Leadership <s>/</s> Creative Review &amp; Approval</dd>
+        </div>
+        <div class="cap">
+          <dt>Film &amp; production</dt>
+          <dd>Cinematography <s>/</s> Photography <s>/</s> Video Editing <s>/</s> Short-Form Content <s>/</s> Commercial Production <s>/</s> Documentary Storytelling <s>/</s> Automotive &amp; Motorsports <s>/</s> Sports Hype <s>/</s> Event Production <s>/</s> Product Photography</dd>
+        </div>
+        <div class="cap">
+          <dt>Social &amp; marketing</dt>
+          <dd>Organic Social Strategy <s>/</s> Audience Development <s>/</s> Content Strategy <s>/</s> Content-to-Conversion <s>/</s> Social Analytics <s>/</s> Brand Development <s>/</s> Platform-Native Storytelling <s>/</s> Retention <s>/</s> Organic Distribution</dd>
+        </div>
+        <div class="cap">
+          <dt>Systems &amp; technology</dt>
+          <dd>CRM Architecture <s>/</s> AI-Assisted Creative Workflows <s>/</s> Content Systems <s>/</s> Media Asset Workflows <s>/</s> Marketing Automation <s>/</s> Analytics &amp; Reporting <s>/</s> Semantic Media Discovery <s>/</s> Workflow Design</dd>
+        </div>
+        <div class="cap">
+          <dt>Software</dt>
+          <dd>Adobe Premiere Pro <s>/</s> Adobe Photoshop <s>/</s> Adobe Lightroom <span class="todo">[ ADD: After Effects? DaVinci? Capture One? Meta Business Suite? ]</span></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Education</h2>
+    <div class="block-body">
+      <div class="edu">
+        <div class="edu-row">
+          <div>
+            <h3>University of Kentucky</h3>
+            <p>Graphic Design — coursework in graphic design and visual communication</p>
+          </div>
+          <div class="when"><b>2019 – 2021</b></div>
+        </div>
+        <div class="edu-row">
+          <div><h3>Weber State University</h3></div>
+          <div class="when"><b>2021 – 2022</b></div>
+        </div>
+        <div class="edu-row">
+          <div><h3>Western Kentucky University</h3></div>
+          <div class="when"><b>2022 – 2024</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="note">
+    <b>Before you send this — swap the highlighted fields</b>
+    Blue-highlighted brackets are placeholders and are the only things left to fill: phone, city/state, portfolio URL, Instagram handle, LinkedIn, the date range for Gauge Ashton / total.gee, and any software beyond the three Adobe apps. Education lists three schools with no degree or completion status — decide whether to add "B.A., expected" / "coursework toward" or leave the dates to speak for themselves. This note is screen-only and never prints.
+  </aside>
+
+</main>
+</body>
+</html>
