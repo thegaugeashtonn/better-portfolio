@@ -43,14 +43,14 @@
    crs:SaturationAdjustmentRed="-6"
    crs:LuminanceAdjustmentRed="-10"
    crs:HueAdjustmentOrange="0"
-   crs:SaturationAdjustmentOrange="-26"
+   crs:SaturationAdjustmentOrange="-14"
    crs:LuminanceAdjustmentOrange="-6"
-   crs:HueAdjustmentYellow="12"
-   crs:SaturationAdjustmentYellow="-55"
-   crs:LuminanceAdjustmentYellow="-12"
-   crs:HueAdjustmentGreen="30"
-   crs:SaturationAdjustmentGreen="-50"
-   crs:LuminanceAdjustmentGreen="-18"
+   crs:HueAdjustmentYellow="-4"
+   crs:SaturationAdjustmentYellow="-8"
+   crs:LuminanceAdjustmentYellow="-10"
+   crs:HueAdjustmentGreen="-10"
+   crs:SaturationAdjustmentGreen="-5"
+   crs:LuminanceAdjustmentGreen="-26"
    crs:HueAdjustmentAqua="-4"
    crs:SaturationAdjustmentAqua="-8"
    crs:LuminanceAdjustmentAqua="-12"
@@ -80,8 +80,8 @@
    crs:ShadowTint="-6"
    crs:RedHue="0"
    crs:RedSaturation="-8"
-   crs:GreenHue="15"
-   crs:GreenSaturation="-25"
+   crs:GreenHue="0"
+   crs:GreenSaturation="0"
    crs:BlueHue="-8"
    crs:BlueSaturation="10"
    crs:PostCropVignetteAmount="-14"
@@ -97,7 +97,7 @@
    <crs:ShortName><rdf:Alt><rdf:li xml:lang="x-default"/></rdf:Alt></crs:ShortName>
    <crs:SortName><rdf:Alt><rdf:li xml:lang="x-default"/></rdf:Alt></crs:SortName>
    <crs:Group><rdf:Alt><rdf:li xml:lang="x-default">Steel Gray</rdf:li></rdf:Alt></crs:Group>
-   <crs:Description><rdf:Alt><rdf:li xml:lang="x-default">Overcast / outdoor. Teal-slate shadows, muted greens and yellows, saturated blue and red accents.</rdf:li></rdf:Alt></crs:Description>
+   <crs:Description><rdf:Alt><rdf:li xml:lang="x-default">Overcast / outdoor. Teal-slate shadows, deep (not desaturated) greens, controlled yellows, saturated blue and red accents.</rdf:li></rdf:Alt></crs:Description>
    <crs:ToneCurvePV2012>
     <rdf:Seq>
      <rdf:li>0, 5</rdf:li>
